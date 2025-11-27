@@ -1,0 +1,12 @@
+const ORDER_STATUS = {
+  PENDING: "PENDING",
+  IN_PROGRESS: "IN_PROGRESS",
+  COMPLETE: "COMPLETE",
+};
+
+const ORDER_TYPE = {
+  NORMAL: "NORMAL",
+  VIP: "VIP",
+};
+
+module.exports = { ORDER_STATUS, ORDER_TYPE };
