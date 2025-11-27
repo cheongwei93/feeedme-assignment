@@ -1,0 +1,11 @@
+Starting simulation...
+
+Bot 1 started VIP Order 2 at 00:55:25
+Bot 2 started NORMAL Order 1 at 00:55:25
+VIP Order 2 completed at 00:55:35
+Bot 1 started NORMAL Order 1 at 00:55:35
+NORMAL Order 1 completed at 00:55:45
+Bot 1 started VIP Order 4 at 00:55:45
+VIP Order 4 completed at 00:55:55
+Bot 1 started NORMAL Order 3 at 00:55:55
+NORMAL Order 3 completed at 00:56:05

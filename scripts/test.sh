@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# Unit Test Script
-# This script should contain all unit test execution steps
+# Exit immediately if a command exits with a non-zero status
+set -e
 
+echo "=========================="
 echo "Running unit tests..."
+echo "=========================="
 
-# For Go projects:
-# go test ./... -v
+# Ensure dependencies are installed
+npm install
 
-# For Node.js projects:
-# npm test
-
-echo "Unit tests completed"
+# Run Jest tests
+npm test
