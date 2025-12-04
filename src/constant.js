@@ -1,12 +1,17 @@
 const ORDER_STATUS = {
   PENDING: "PENDING",
-  IN_PROGRESS: "IN_PROGRESS",
+  PROCESSING: "PROCESSING",
   COMPLETE: "COMPLETE",
 };
 
 const ORDER_TYPE = {
-  NORMAL: "NORMAL",
+  NORMAL: "Normal",
   VIP: "VIP",
 };
 
-module.exports = { ORDER_STATUS, ORDER_TYPE };
+const BOT_STATUS = {
+  ACTIVE: "ACTIVE",
+  IDLE: "IDLE",
+};
+
+module.exports = { ORDER_STATUS, ORDER_TYPE, BOT_STATUS };

@@ -1,9 +1,8 @@
 const fs = require("fs");
 const OrderManager = require("./orderManager");
-const { BotManager } = require("./botManager");
+const { BotManager, timestamp } = require("./botManager");
 const { ORDER_TYPE } = require("./constant");
 const EventEmitter = require("events");
-const eventEmitter = new EventEmitter();
 
 class Logger {
   constructor(file) {
@@ -18,11 +17,15 @@ class Logger {
 }
 
 async function runApp() {
+  const eventEmitter = new EventEmitter();
   const logger = new Logger("result.txt");
-  const orderMgr = new OrderManager();
-  const botMgr = new BotManager(orderMgr, logger);
+  const orderMgr = new OrderManager(logger);
+  const botMgr = new BotManager(orderMgr, logger, eventEmitter);
 
-  logger.log("Starting simulation...\n");
+  logger.log("McDonald's Order Management System - Simulation Results\n");
+  logger.log(
+    `${timestamp()} System initialized with ${botMgr.bots.length} bots`
+  );
 
   orderMgr.addOrder(ORDER_TYPE.NORMAL);
   orderMgr.addOrder(ORDER_TYPE.VIP);
@@ -31,14 +34,36 @@ async function runApp() {
   botMgr.addBot();
   botMgr.addBot();
 
-  orderMgr.addOrder(ORDER_TYPE.VIP);
+  setTimeout(() => {
+    orderMgr.addOrder(ORDER_TYPE.VIP);
+    botMgr.assignOrders();
+  }, 10 * 1000);
 
-  setTimeout(() => botMgr.removeBot(), 4000);
+  eventEmitter.on("allOrdersComplete", () => {
+    if (botMgr.bots.length > 1) {
+      botMgr.removeBot();
+    }
+    // report status
+    const totalOrdersProcessed = orderMgr.completed.concat(orderMgr.pending);
+    const vipOrders = totalOrdersProcessed.filter(
+      (order) => order.orderType === ORDER_TYPE.VIP
+    );
+    const normalOrders = totalOrdersProcessed.filter(
+      (order) => order.orderType === ORDER_TYPE.NORMAL
+    );
+    const completedOrders = orderMgr.completed.length;
+    const activeBots = botMgr.bots.length;
+    const pendingOrders = orderMgr.pending.length;
+
+    logger.log("\nFinal Status:");
+    logger.log(
+      `- Total Orders Processed: ${totalOrdersProcessed.length} (${vipOrders.length} VIP, ${normalOrders.length} Normal)`
+    );
+    logger.log(`- Orders Completed: ${completedOrders}`);
+    logger.log(`- Active Bots: ${activeBots}`);
+    logger.log(`- Pending Orders: ${pendingOrders}`);
+    process.exit(0);
+  });
 }
-
-eventEmitter.on("allOrdersComplete", () => {
-  logger.log("\nSimulation finished.");
-  process.exit(0);
-});
 
 runApp();

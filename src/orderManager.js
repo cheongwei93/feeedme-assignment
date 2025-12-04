@@ -3,10 +3,11 @@ const { ORDER_TYPE, ORDER_STATUS } = require("./constant");
 const Order = require("./order");
 
 class OrderManager {
-  constructor() {
+  constructor(logger) {
     this.pending = [];
     this.completed = [];
-    this.orderId = 1;
+    this.orderId = 1001;
+    this.logger = logger;
   }
   addOrder(type) {
     const order = new Order(this.orderId++, type);
@@ -24,8 +25,10 @@ class OrderManager {
       this.pending.push(order);
     }
 
-    console.log(
-      `${order.orderType} Order ${order.id} is created at ${timestamp()}`
+    this.logger.log(
+      `${timestamp()} Created ${order.orderType} Order #${order.id} - Status: ${
+        order.status
+      }`
     );
     return order;
   }

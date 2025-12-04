@@ -1,8 +1,8 @@
 class Bot {
   constructor(id) {
     this.id = id;
-    this.working = false;
-    this.current = null;
+    this.status = null;
+    this.current = null; // as in current order
     this.timeout = null;
   }
 }
